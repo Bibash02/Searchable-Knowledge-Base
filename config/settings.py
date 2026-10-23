@@ -38,7 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'searchable',
+    "rest_framework",
+    "rest_framework.authtoken",
+
+    'accounts',
+    'kb',
 ]
 
 MIDDLEWARE = [
@@ -127,3 +131,18 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.TokenAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+    ],
+    # Anonymous visitors are legitimate readers of public content;
+    # every view decides for itself what each caller may see or do.
+    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny"],
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 20,
+}
+
+# Swap this dotted path for an Elasticsearch/Meilisearch/Postgres FTS backend later.
+KB_SEARCH_BACKEND = "kb.search.DatabaseSearchBackend"
